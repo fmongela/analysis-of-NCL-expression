@@ -1,0 +1,39 @@
+rm(list=ls())
+my_packs <- c("readr","ggplot2","tidyverse","rstatix","ggprism",
+              "ggthemes","scales","grid","RColorBrewer")
+lapply(my_packs, library, character.only = TRUE)
+theme_set(theme_bw())
+chemin <- "D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/NCL intensity/compil/IF shRNA HCT116 clones 230418__2023-04-19T18_04_21-Measurement 1b/Evaluation6/Objects_Population - Nuclei Selected.txt"
+loaded_table <- read_tsv(chemin, skip = 9, col_select = c("Cell Type", "Dox", "Nuclei Selected - NCL intensity Mean"))
+#rename crappy columns 
+loaded_table <- loaded_table %>% rename('Cell'=`Cell Type`) %>% rename('NCL'=`Nuclei Selected - NCL intensity Mean`)
+#reorder cell lines and dox treatments for plotting
+loaded_table$Cell <-factor(loaded_table$Cell,levels=c("shNS #1", "shNS #2", "sh22 #2", "sh22 #6", "sh73 #6", "sh73 #10"))
+loaded_table$Dox <-factor(loaded_table$Dox,levels=c("noDox", "+Dox"))
+
+plot_a <- ggplot(loaded_table, aes(x=Cell, y=NCL, fill=Dox))
+plot_b <- plot_a +  geom_violin() +
+  scale_fill_brewer(palette = "Paired")
+
+df_only_shNS <- filter( loaded_table, Cell=='shNS #1')
+
+loaded_table_mutated <- mutate(loaded_table, Cell_Dox=paste(Cell,Dox),sep="_")
+plot_c <- ggplot(loaded_table_mutated, aes(NCL, fill=Cell_Dox)) + 
+          geom_histogram(binwidth = 100) +
+          scale_fill_brewer(palette = "Paired") 
+
+plot_d <- ggplot(df_only_shNS, aes(NCL, fill=Dox)) +
+          geom_histogram(binwidth = 250) +
+          scale_fill_brewer(palette = "Paired")
+plot_b
+plot_c
+plot_d
+
+df_stats <- df_only_shNS %>%
+  group_by(Cell) %>%
+  t_test(`NCL` ~ `Dox`) %>%
+  adjust_pvalue(method = "bonferroni") %>%
+  add_significance("p.adj")
+df_stats
+
+
