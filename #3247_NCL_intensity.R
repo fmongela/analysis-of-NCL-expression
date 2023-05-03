@@ -1,3 +1,8 @@
+#  _  _  ____  ____   ___  ____        __ _   ___  __   
+# / )( \( __ \(___ \ / _ \(__  )      (  ( \ / __)(  )  
+# )    ( (__ ( / __/(__  (  / /       /    /( (__ / (_/\
+# \_)(_/(____/(____)  (__/ (_/        \_)__) \___)\____/
+  
 rm(list=ls())
 my_packs <- c("readr","ggplot2","tidyverse","rstatix","ggprism",
               "ggthemes","scales","grid","RColorBrewer")
