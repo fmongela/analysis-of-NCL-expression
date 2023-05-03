@@ -12,3 +12,10 @@ plot_d <- ggplot(df_only_shNS, aes(NCL, fill=Dox)) +
 plot_b
 plot_c
 plot_d
+
+df_stats  <- loaded_table %>%
+  group_by(Cell) %>%
+  t_test(`NCL` ~ `Dox`) %>%
+  adjust_pvalue(method = "bonferroni") %>%
+  add_significance("p.adj")
+df_stats
