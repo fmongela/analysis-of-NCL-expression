@@ -22,5 +22,5 @@ plot_b <- plot_a +  geom_violin() +
   scale_fill_brewer(palette = "Paired")
 
 print (plot_b) 
-
+print (plot_b) 
 
