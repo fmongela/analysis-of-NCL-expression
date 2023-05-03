@@ -21,6 +21,6 @@ plot_a <- ggplot(loaded_table, aes(x=Cell, y=NCL, fill=Dox))
 plot_b <- plot_a +  geom_violin() +
   scale_fill_brewer(palette = "Paired")
 
-plot_b
+print (plot_b) 
 
 
