@@ -8,7 +8,8 @@ my_packs <- c("readr","ggplot2","tidyverse","rstatix","ggprism",
               "ggthemes","scales","grid","RColorBrewer")
 lapply(my_packs, library, character.only = TRUE)
 theme_set(theme_bw())
-chemin <- "D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/NCL intensity/compil/IF shRNA HCT116 clones 230418__2023-04-19T18_04_21-Measurement 1b/Evaluation6/Objects_Population - Nuclei Selected.txt"
+#chemin <- "D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/NCL intensity/compil/IF shRNA HCT116 clones 230418__2023-04-19T18_04_21-Measurement 1b/Evaluation6/Objects_Population - Nuclei Selected.txt"
+chemin <- file.choose()
 loaded_table <- read_tsv(chemin, skip = 9, col_select = c("Cell Type", "Dox", "Nuclei Selected - NCL intensity Mean"))
 #rename crappy columns 
 loaded_table <- loaded_table %>% rename('Cell'=`Cell Type`) %>% rename('NCL'=`Nuclei Selected - NCL intensity Mean`)
@@ -20,12 +21,6 @@ plot_a <- ggplot(loaded_table, aes(x=Cell, y=NCL, fill=Dox))
 plot_b <- plot_a +  geom_violin() +
   scale_fill_brewer(palette = "Paired")
 
-
-df_stats <- df_only_shNS %>%
-  group_by(Cell) %>%
-  t_test(`NCL` ~ `Dox`) %>%
-  adjust_pvalue(method = "bonferroni") %>%
-  add_significance("p.adj")
-df_stats
+plot_b
 
 
