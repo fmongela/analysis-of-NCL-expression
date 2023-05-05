@@ -36,8 +36,6 @@ return(plot_a)
 plots_list <- lapply(pathFileList, BoPlot)
 
 # Arrange the plots in a grid using gridExtra
-grid.arrange(
-  grobs = lapply(plots_list, ggplotGrob),
-  ncol = 1
-)
+grid.arrange(grobs = lapply(plots_list, ggplotGrob),
+              ncol = 1)
 
