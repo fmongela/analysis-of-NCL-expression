@@ -4,9 +4,8 @@
 # \_)(_/(____/(____)  (__/ (_/        \_)__) \___)\____/
   
 rm(list=ls())
-plot_list <- list()
 my_packs <- c("readr","ggplot2","tidyverse","rstatix","ggprism",
-              "ggthemes","scales","gridExtra","RColorBrewer")
+              "ggthemes","scales","grid","gridExtra","RColorBrewer")
 lapply(my_packs, library, character.only = TRUE)
 theme_set(theme_bw())
 
@@ -15,10 +14,9 @@ pathFileList <- list("D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/
 "D:\\smyl\\Labo\\projects\\KD NCL HCT116\\Analyses HCS\\id #3247\\NCL intensity\\compil\\#3247__2023-04-21T14_33_50-Measurement 1b\\Evaluation1\\Objects_Population - Nuclei Selected.txt")
 
 BoPlot <- function(pathFile){
-
 loaded_table <- read_tsv(pathFile, skip = 9, col_select = c("Cell Type", "Dox", "Nuclei Selected - NCL intensity Mean","Antibody"))
 #get antibody name
-antibody <<- loaded_table %>% slice(11) %>% pull("Antibody") %>% as.character()
+antibody <<- loaded_table %>% slice(11) %>% pull("Antibody") %>% as.character() %>% substring(6)
 #rename columns
 loaded_table <- loaded_table %>% rename('Cell'=`Cell Type`) %>% rename('NCL'=`Nuclei Selected - NCL intensity Mean`)
 #reorder cell lines and dox treatments for plotting
@@ -27,9 +25,10 @@ loaded_table$Dox <-factor(loaded_table$Dox,levels=c("noDox", "+Dox"))
 loaded_table <- unite(loaded_table, Cell, Dox, col = "Cell_Dox", sep="_", remove = FALSE)
 
 plot_a <- ggplot(loaded_table, aes(x=Cell, y=NCL, fill=Dox)) +
-  geom_violin(position=position_dodge(0.75)) +
+  geom_violin(position=position_dodge(0.75), trim = TRUE) +
   scale_fill_brewer(palette = "Paired") +
-  labs(title = antibody)
+  labs(title = antibody) +
+  ylab(antibody)
 return(plot_a)
 }
 
@@ -38,6 +37,7 @@ plots_list <- lapply(pathFileList, BoPlot)
 # Arrange the plots in a grid using gridExtra
 grid.arrange(
   grobs = lapply(plots_list, ggplotGrob),
-  ncol = 1
+  ncol = 1,
+  top = textGrob("Expé #3247",gp=gpar(fontsize=15,font=3))
 )
 
