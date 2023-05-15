@@ -14,7 +14,7 @@ toto <- c("#B2DF8A", "#33A02C")
 pathFileList <- list("D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/NCL intensity/compil/IF shRNA HCT116 clones 230418__2023-04-19T18_04_21-Measurement 1b/Evaluation6/Objects_Population - Nuclei Selected.txt",
 "D:\\smyl\\Labo\\projects\\KD NCL HCT116\\Analyses HCS\\id #3247\\NCL intensity\\compil\\#3247 G1H12 B23 restarted with 25% laser__2023-04-21T17_34_05-Measurement 1b\\Evaluation1\\Objects_Population - Nuclei Selected.txt",
 "D:\\smyl\\Labo\\projects\\KD NCL HCT116\\Analyses HCS\\id #3247\\NCL intensity\\compil\\#3247__2023-04-21T14_33_50-Measurement 1b\\Evaluation1\\Objects_Population - Nuclei Selected.txt")
-
+#
 BoPlot <- function(pathFile){
 
 loaded_table <- read_tsv(pathFile, skip = 9, col_select = c("Cell Type", "Dox", "Nuclei Selected - NCL intensity Mean","Antibody"))
@@ -40,4 +40,4 @@ plots_list <- lapply(pathFileList, BoPlot)
 # Arrange the plots in a grid using gridExtra
 grid.arrange(grobs = lapply(plots_list, ggplotGrob),
               ncol = 1)
-print("end")
+print("the end")
