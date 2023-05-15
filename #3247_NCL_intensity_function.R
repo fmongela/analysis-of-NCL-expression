@@ -9,6 +9,7 @@ my_packs <- c("readr","ggplot2","tidyverse","rstatix","ggprism",
               "ggthemes","scales","gridExtra","RColorBrewer")
 lapply(my_packs, library, character.only = TRUE)
 theme_set(theme_bw())
+toto <- c("#B2DF8A", "#33A02C")
 
 pathFileList <- list("D:/smyl/Labo/projects/KD NCL HCT116/Analyses HCS/id #3247/NCL intensity/compil/IF shRNA HCT116 clones 230418__2023-04-19T18_04_21-Measurement 1b/Evaluation6/Objects_Population - Nuclei Selected.txt",
 "D:\\smyl\\Labo\\projects\\KD NCL HCT116\\Analyses HCS\\id #3247\\NCL intensity\\compil\\#3247 G1H12 B23 restarted with 25% laser__2023-04-21T17_34_05-Measurement 1b\\Evaluation1\\Objects_Population - Nuclei Selected.txt",
@@ -28,7 +29,8 @@ loaded_table <- unite(loaded_table, Cell, Dox, col = "Cell_Dox", sep="_", remove
 
 plot_a <- ggplot(loaded_table, aes(x=Cell, y=NCL, fill=Dox)) +
   geom_violin(position=position_dodge(0.75)) +
-  scale_fill_brewer(palette = "Paired") +
+  #scale_fill_brewer(palette = toto) +
+  scale_fill_manual(values = toto) +
   labs(title = antibody)
 return(plot_a)
 }
