@@ -40,4 +40,4 @@ plots_list <- lapply(pathFileList, BoPlot)
 # Arrange the plots in a grid using gridExtra
 grid.arrange(grobs = lapply(plots_list, ggplotGrob),
               ncol = 1)
-print("the end")
+print("That's it!")
